@@ -8,11 +8,11 @@ var chance = new Chance();
 
 // event handlers
 const driverHandler = require('./driver/index');
-// const vendorHandler = require('./src/vendor');
+const vendorHandler = require('./vendor/index');
 
 // listen to all events
 eventPool.on('PICKUP', driverHandler);
-// eventPool.on('DELIVERED', vendorHandler);
+eventPool.on('DELIVERED', vendorHandler);
 
 setInterval(() => {
 
@@ -21,4 +21,4 @@ setInterval(() => {
   console.log('Product ID: ', productID);
   eventPool.emit('PICKUP', { productID });
 
-}, 5000);
+}, 10000);
