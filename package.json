@@ -1,0 +1,19 @@
+{
+  "name": "caps",
+  "version": "1.0.0",
+  "description": "## Project: CAP - The Code Academy Parcel Service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test-watch": "NODE_ENV=test jest --verbose --coverage --watchAll",
+    "test": "NODE_ENV=test jest --verbose --coverage --runInBand"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chance": "^1.1.11",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  }
+}
