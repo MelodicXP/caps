@@ -2,6 +2,7 @@
 
 // let eventPool = require('./eventPool');
 let Chance = require('chance');
+const eventPool = require('./eventPool');
 
 var chance = new Chance();
 
@@ -16,7 +17,8 @@ var chance = new Chance();
 setInterval(() => {
 
   console.log('---------------new inerval begins-------------');
-  let randomID = chance.guid();
-  console.log('Random userID: ', randomID);
+  const productID = chance.guid();
+  console.log('Product ID: ', productID);
+  eventPool.emit('PICKUP', { productID });
 
 }, 5000);
