@@ -6,12 +6,12 @@ const eventPool = require('./eventPool');
 
 var chance = new Chance();
 
-// // event handlers
-// const driverHandler = require('./src/driver');
+// event handlers
+const driverHandler = require('./driver/index');
 // const vendorHandler = require('./src/vendor');
 
-// // listen to all events
-// eventPool.on('PICKUP', driverHandler);
+// listen to all events
+eventPool.on('PICKUP', driverHandler);
 // eventPool.on('DELIVERED', vendorHandler);
 
 setInterval(() => {
