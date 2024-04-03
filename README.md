@@ -47,8 +47,8 @@ placeholder
 
 #### UML
 
-![Lab-11-UML](placeholder)
+![Lab-11-UML](./assets/UML.png)
 
 #### File Structure
 
-![Lab-11-UML-File-Structure](./assets/placeholder)
+![Lab-11-UML-File-Structure](./assets/FileStruc.png)
