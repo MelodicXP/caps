@@ -3,15 +3,30 @@
 const eventPool = require('../eventPool');
 
 let Chance = require('chance');
-var chance = new Chance();
+let chance = new Chance();
+
 
 setInterval(() => {
 
   console.log('---------------new inerval begins-------------');
-  const productID = chance.guid();
-  console.log('Product ID: ', productID);
-  eventPool.emit('PICKUP', { productID });
 
+  const orderID = chance.guid();
+  const currentTimestamp = new Date().toISOString();
+  let event = {
+    EVENT: {
+      event: 'pickup',
+      time: `${currentTimestamp}`,
+      payload: {
+        store: 'test store',
+        orderID: `${orderID}`,
+        customer: 'test customer',
+        address: 'test address',
+      },
+    },
+  };
+
+  console.log(event);
+  eventPool.emit('PICKUP', event.EVENT.payload);
 }, 10000);
 
 
