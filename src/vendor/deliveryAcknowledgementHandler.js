@@ -2,12 +2,15 @@
 
 const eventPool = require('../eventPool'); 
 
-// Your handler function
 const thankDriverForDelivery = (payload) => {
   setTimeout(() => {
     console.log(`Vendor: Thank you for delivering orderID ${payload.orderID}`);
   }, 3000);
 };
 
-eventPool.on('DELIVERED', thankDriverForDelivery);
+// Listen for DELIVERED event
+eventPool.on('DELIVERED', thankDriverForDelivery); 
+
+
+module.exports = thankDriverForDelivery;
 

@@ -2,7 +2,7 @@
 
 const eventPool = require('../eventPool');
 
-const handlePickup = (payload) => {
+const handlePickupAndDelivery = (payload) => {
   setTimeout(() => {
     simulatePickupProcess(payload);
     simulateDeliveryProcess(payload);
@@ -34,4 +34,6 @@ const emitEvent = (eventName, payload) => {
   eventPool.emit(eventName.toUpperCase(), payload);
 };
 
-eventPool.on('PICKUP', handlePickup);
+eventPool.on('PICKUP', handlePickupAndDelivery);
+
+module.exports = handlePickupAndDelivery;
