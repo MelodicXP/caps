@@ -1,5 +1,5 @@
 'use strict';
 
-// event handlers
-require('./driver/index');
-require('./vendor/index');
+// set up listeners
+require('./driver/pickupAndDeliveryHandler');
+require('./vendor/deliveryAcknowledgementHandler');
