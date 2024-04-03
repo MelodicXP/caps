@@ -15,9 +15,8 @@ Setup a pool of events and handler functions, with the intent being to refactor 
 
 ### Links and Resources
 
-- [Pull Request](placeholder)
-- [GitHub Actions ci/cd](placeholder)
-- Prod [back-end server url](placeholder)
+- [Pull Request](https://github.com/MelodicXP/caps/pull/1)
+- [GitHub Actions ci/cd](https://github.com/MelodicXP/caps/actions)
 
 ### Collaborators
 
