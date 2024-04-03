@@ -40,10 +40,11 @@ placeholder
 #### Tests
 
 - How do you run tests?
-  - jest and supertest
+  - jest
 
 - Any tests of note?  
-  - placeholder
+  - pickupAndDeliveryHandler.test.js
+  - deliveryAcknowledgement.test.js
 
 #### UML
 
