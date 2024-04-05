@@ -1,5 +1,8 @@
 'use strict';
 
-// set up listeners
+// Set up listeners
 require('./driver/pickupAndDeliveryHandler');
 require('./vendor/deliveryAcknowledgementHandler');
+
+// Start the logger
+require('./logger');

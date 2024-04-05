@@ -30,8 +30,12 @@ const emitEvent = (eventName, payload) => {
     time: currentTimestamp,
     payload,
   };
-  console.log('EVENT', event);
+  
+  // Emit event for business logic
   eventPool.emit(eventName.toUpperCase(), payload);
+  // Emit generic log event for logging
+  eventPool.emit('LOG', event);
+
 };
 
 eventPool.on('PICKUP', handlePickupAndDelivery);

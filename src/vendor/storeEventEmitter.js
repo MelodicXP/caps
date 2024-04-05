@@ -19,8 +19,11 @@ function emitStoreEvent(storeName) {
     payload,
   };
 
-  console.log('EVENT', event);
-  eventPool.emit('PICKUP', payload);
+  // Emit event for business logic
+  eventPool.emit(event.event.toUpperCase(), payload);
+  
+  // Emit generic log event for logging
+  eventPool.emit('LOG', event);
 }
 
 function createEventPayload(storeName) {
