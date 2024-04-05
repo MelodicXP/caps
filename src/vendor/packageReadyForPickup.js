@@ -3,7 +3,7 @@ const Chance = require('chance');
 const chance = new Chance();
 
 // Exported function
-function startEmittingEventsForStore(storeName) {
+function emitPackageReadyForPickup(storeName) {
   setInterval(() => {
     console.log('---------------new interval begins-------------');
     emitStoreEvent(storeName);
@@ -24,4 +24,4 @@ function createEventPayload(storeName) {
   };
 }
 
-module.exports = startEmittingEventsForStore;
+module.exports = emitPackageReadyForPickup;
