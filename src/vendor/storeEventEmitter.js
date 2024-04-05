@@ -1,4 +1,4 @@
-const eventPool = require('../eventPool');
+const emit = require('../eventEmitter');
 const Chance = require('chance');
 const chance = new Chance();
 
@@ -11,19 +11,8 @@ function startEmittingEventsForStore(storeName) {
 }
 
 function emitStoreEvent(storeName) {
-  const currentTimestamp = new Date().toISOString();
   const payload = createEventPayload(storeName);
-  const event = {
-    event: 'pickup',
-    time: currentTimestamp,
-    payload,
-  };
-
-  // Emit event for business logic
-  eventPool.emit(event.event.toUpperCase(), payload);
-  
-  // Emit generic log event for logging
-  eventPool.emit('LOG', event);
+  emit.eventAndPayload('PICKUP', payload);
 }
 
 function createEventPayload(storeName) {
