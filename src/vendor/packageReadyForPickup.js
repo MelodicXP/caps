@@ -1,27 +1,23 @@
 const emit = require('../eventEmitter');
-const Chance = require('chance');
-const chance = new Chance();
+const OrderCreator = require('./OrderCreator');
 
 // Exported function
-function emitPackageReadyForPickup(storeName) {
+function triggerOrderReadyForPickup(storeName) {
   setInterval(() => {
     console.log('---------------new interval begins-------------');
-    emitStoreEvent(storeName);
+    const order = createOrder(storeName);
+    emitOrderReadyForPickup(order);
   }, 11000);
 }
 
-function emitStoreEvent(storeName) {
-  const payload = createEventPayload(storeName);
-  emit.eventAndPayload('PICKUP', payload);
+function createOrder (storeName)  {
+  const orderCreator = new OrderCreator(storeName);
+  const order = orderCreator.createOrder();
+  return order;
 }
 
-function createEventPayload(storeName) {
-  return {
-    store: storeName,
-    orderID: chance.guid(),
-    customer: chance.name({ nationality: 'en' }),
-    address: `${chance.city()}, ${chance.state()}`,
-  };
+function emitOrderReadyForPickup(order) {
+  emit.eventAndPayload('PICKUP', order);
 }
 
-module.exports = emitPackageReadyForPickup;
+module.exports = triggerOrderReadyForPickup;
