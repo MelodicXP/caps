@@ -4,5 +4,6 @@
 require('./src/hub');
 
 // Then start emitting events
-const startEmittingEventsForStore = require('./src/vendor/storeEventEmitter');
-startEmittingEventsForStore('Melodic Music Store');
+const emitPackageReadyForPickup = require('./src/vendor/packageReadyForPickup');
+
+emitPackageReadyForPickup('Melodic Music Store');

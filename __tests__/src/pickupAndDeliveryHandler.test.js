@@ -1,45 +1,43 @@
 'use strict';
 
-jest.useFakeTimers(); // Use jest fake timers
-jest.mock('../../src/eventPool'); // Mock event pool
+jest.useFakeTimers(); // Use Jest's fake timers to control setTimeout behavior
+jest.mock('../../src/eventPool'); // Mock the event pool
 console.log = jest.fn(); // Mock console.log to verify the log output
 
 const eventPool = require('../../src/eventPool');
-const handlePickupAndDelivery  = require('../../src/driver/pickupAndDeliveryHandler');
+const handlePickupAndDelivery = require('../../src/driver/pickupAndDeliveryHandler');
 
 describe('Handle Pickup and Delivery Process', () => {
   beforeEach(() => {
+    // Clear mocks before each test
     console.log.mockClear();
     eventPool.emit.mockClear();
   });
 
-  it('simulates the pickup and delivery process correctly', () => {
+  it('simulates the pickup and delivery process correctly, including log events', () => {
     const payload = { orderID: 'testOrderID' };
 
     handlePickupAndDelivery(payload);
 
-    // Immediately after calling handlePickupAndDelivery, no logs should have happened yet
+    // Immediately after calling handlePickupAndDelivery, no actions should have been taken yet
     expect(console.log).not.toHaveBeenCalled();
+    expect(eventPool.emit).not.toHaveBeenCalled();
 
-    // Advance time to trigger simulatePickupProcess
+    // Advance time to simulate pickup process
     jest.advanceTimersByTime(3000);
     expect(console.log).toHaveBeenCalledWith(`Driver: Picked up order ID: ${payload.orderID}`);
 
-    // Advance time to trigger emitEvent from simulatePickupProcess
     jest.advanceTimersByTime(2000);
-    expect(console.log).toHaveBeenCalledWith('EVENT', expect.objectContaining({ event: 'in_transit', payload }));
-
-    // Advance time to trigger simulateDeliveryProcess
-    jest.advanceTimersByTime(1000); // Total 5000ms from initial call
-    expect(console.log).not.toHaveBeenCalledWith(`Driver: Delivered ${payload.orderID}`);
-
-    // Finally, trigger the delivery process logging and event emission
-    jest.advanceTimersByTime(4000); // Total 9000ms from initial call
-    expect(console.log).toHaveBeenCalledWith(`Driver: Delivered ${payload.orderID}`);
-    expect(console.log).toHaveBeenCalledWith('EVENT', expect.objectContaining({ event: 'delivered', payload }));
-    
-    // Verify eventPool.emit was called for both IN_TRANSIT and DELIVERED events
     expect(eventPool.emit).toHaveBeenCalledWith('IN_TRANSIT', payload);
+    expect(eventPool.emit).toHaveBeenCalledWith('LOG', expect.any(Object)); // Check for LOG event emission
+
+    // Advance time to simulate delivery process
+    jest.advanceTimersByTime(6000); // Additional time to cover both transit and delivery
+    expect(console.log).toHaveBeenCalledWith(`Driver: Delivered ${payload.orderID}`);
     expect(eventPool.emit).toHaveBeenCalledWith('DELIVERED', payload);
+    expect(eventPool.emit).toHaveBeenCalledWith('LOG', expect.any(Object)); // Check for LOG event emission again
+
+    // Total checks for eventPool.emit calls (twice for each state change plus two LOG events)
+    expect(eventPool.emit).toHaveBeenCalledTimes(4);
   });
 });
