@@ -1,9 +1,9 @@
 'use strict';
 
 // Set up event handlers from hub
-require('./src/hub');
+require('./clients/hub');
 
 // Then start emitting events
-const emitPackageReadyForPickup = require('./src/vendor/packageReadyForPickup');
+const triggerOrderReadyForPickup= require('./clients/vendor/packageReadyForPickup');
 
-emitPackageReadyForPickup('Melodic Music Store');
+triggerOrderReadyForPickup('Melodic Music Store');
