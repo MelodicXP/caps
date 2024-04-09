@@ -1,6 +1,7 @@
 'use strict';
 
-const eventPool = require('./eventPool');
+const { io } = require('socket.io-client');
+const socket = io('http://localhost:3001/caps');
 
 const emit = {
   eventAndPayload: (eventName, payload) => {
@@ -11,14 +12,7 @@ const emit = {
     };
 
     // Emit event for business logic
-    eventPool.emit(eventName.toUpperCase(), payload);
-
-    // Automatically emit a corresponding log event
-    emit.log(event);
-  },
-
-  log: (event) => {
-    eventPool.emit('LOG', event);
+    socket.emit(eventName.toUpperCase(), event);
   },
 };
 
