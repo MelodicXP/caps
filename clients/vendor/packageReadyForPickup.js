@@ -4,7 +4,7 @@ const OrderCreator = require('./OrderCreator');
 // Exported function
 function triggerOrderReadyForPickup(storeName) {
   setInterval(() => {
-    console.log('---------------new interval begins-------------');
+    console.log('---------------Emitting Order Ready For Pickup-------------');
     const order = createOrder(storeName);
     emitOrderReadyForPickup(order);
   }, 11000);
