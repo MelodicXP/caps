@@ -1,10 +1,10 @@
 'use strict';
 
-const { io } = require('socket.io-client');
-const socket = io('http://localhost:3001/caps');
+// const { io } = require('socket.io-client');
+// const socket = io('http://localhost:3001/caps');
 
 const emit = {
-  eventAndPayload: (eventName, incomingPayload) => {
+  eventAndPayload: (socket, eventName, incomingPayload) => {
     if(incomingPayload.event && incomingPayload.payload) {
       incomingPayload.event = eventName.toLowerCase();
       incomingPayload.time = new Date().toISOString();

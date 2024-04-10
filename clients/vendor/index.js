@@ -11,7 +11,7 @@ function initializeSocketConnection(namespaceUrl) {
 }
 
 function setupEventHandlers(socket) {
-  triggerOrderReadyForPickup('1-206-flowers');
+  triggerOrderReadyForPickup(socket, '1-206-flowers');
   thankDriverForDelivery(socket);
 }
 

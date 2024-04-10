@@ -5,23 +5,23 @@ const emit = require('../eventEmitter');
 const handlePickupAndDelivery = (socket) => {
   socket.on('PICKUP', (payload) => {
     setTimeout(() => {
-      simulatePickupProcess(payload);
-      simulateDeliveryProcess(payload);
+      simulatePickupProcess(socket, payload);
+      simulateDeliveryProcess(socket, payload);
     }, 3000);
   });
 };
 
-const simulatePickupProcess = (payload) => {
+const simulatePickupProcess = (socket, payload) => {
   console.log(`Driver: Picked up order ID: ${payload.payload.orderID}`);
   setTimeout(() => {
-    emit.eventAndPayload('IN_TRANSIT', payload);
+    emit.eventAndPayload(socket,'IN_TRANSIT', payload);
   }, 2000);
 };
 
-const simulateDeliveryProcess = (payload) => {
+const simulateDeliveryProcess = (socket, payload) => {
   setTimeout(() => {
     console.log(`Driver: Delivered ${payload.payload.orderID}`); 
-    emit.eventAndPayload('DELIVERED', payload);
+    emit.eventAndPayload(socket, 'DELIVERED', payload);
   }, 4000); 
 };
 
