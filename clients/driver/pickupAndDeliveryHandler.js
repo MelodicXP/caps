@@ -1,17 +1,18 @@
 'use strict';
 
 const emit = require('../eventEmitter');
-const eventPool = require('../eventPool');
 
-const handlePickupAndDelivery = (payload) => {
-  setTimeout(() => {
-    simulatePickupProcess(payload);
-    simulateDeliveryProcess(payload);
-  }, 3000);
+const handlePickupAndDelivery = (socket) => {
+  socket.on('PICKUP', (payload) => {
+    setTimeout(() => {
+      simulatePickupProcess(payload);
+      simulateDeliveryProcess(payload);
+    }, 3000);
+  });
 };
 
 const simulatePickupProcess = (payload) => {
-  console.log(`Driver: Picked up order ID: ${payload.orderID}`);
+  console.log(`Driver: Picked up order ID: ${payload.payload.orderID}`);
   setTimeout(() => {
     emit.eventAndPayload('IN_TRANSIT', payload);
   }, 2000);
@@ -19,11 +20,9 @@ const simulatePickupProcess = (payload) => {
 
 const simulateDeliveryProcess = (payload) => {
   setTimeout(() => {
-    console.log(`Driver: Delivered ${payload.orderID}`); 
+    console.log(`Driver: Delivered ${payload.payload.orderID}`); 
     emit.eventAndPayload('DELIVERED', payload);
   }, 4000); 
 };
-
-eventPool.on('PICKUP', handlePickupAndDelivery);
 
 module.exports = handlePickupAndDelivery;
