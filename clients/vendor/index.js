@@ -7,4 +7,4 @@ const socket = io('http://localhost:3001/caps');
 
 socket.emit('JOIN', 'caps');
 
-triggerOrderReadyForPickup('Melodic Music Store');
+triggerOrderReadyForPickup('1-206-flowers');
