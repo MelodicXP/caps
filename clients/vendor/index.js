@@ -2,9 +2,20 @@
 
 const { io } = require('socket.io-client');
 const triggerOrderReadyForPickup = require('../vendor/packageReadyForPickup');
+const thankDriverForDelivery = require('../vendor/deliveryAcknowledgementHandler');
 
-const socket = io('http://localhost:3001/caps');
+function initializeSocketConnection(namespaceUrl) {
+  const socket = io(namespaceUrl);
+  socket.emit('JOIN', 'caps-room');
+  return socket;
+}
 
-socket.emit('JOIN', 'caps-room');
+function setupEventHandlers(socket) {
+  triggerOrderReadyForPickup('1-206-flowers');
+  thankDriverForDelivery(socket);
+}
 
-triggerOrderReadyForPickup('1-206-flowers');
+const capsNamespaceUrl = 'http://localhost:3001/caps';
+const socket = initializeSocketConnection(capsNamespaceUrl);
+setupEventHandlers(socket);
+
