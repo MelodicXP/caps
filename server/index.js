@@ -36,10 +36,21 @@ caps.on('connection', (socket) => {
     console.log('---payload is the room---', room);
     socket.join(room);
     console.log(`You've joined the ${room} room`);
-    // console.log('these are the all the rooms', socket.adapter.rooms);
   });
 
+  // Listening to log events and transmit to recipients
   socket.on('PICKUP', (payload) => {
     console.log('EVENT: ', payload);
+    socket.broadcast.emit('PICKUP', payload);
+  });
+
+  socket.on('IN_TRANSIT', (payload) => {
+    console.log('EVENT: ', payload);
+    socket.broadcast.emit('IN_TRANSIT', payload);
+  });
+
+  socket.on('DELIVERED', (payload) => {
+    console.log('EVENT: ', payload);
+    socket.broadcast.emit('DELIVERED', payload);
   });
 });
