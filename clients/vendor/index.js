@@ -6,7 +6,7 @@ const thankDriverForDelivery = require('../vendor/deliveryAcknowledgementHandler
 
 function initializeSocketConnection(namespaceUrl) {
   const socket = io(namespaceUrl);
-  socket.emit('JOIN', 'caps-room');
+  socket.emit('JOIN', '1-206-flowers');
   return socket;
 }
 
