@@ -24,7 +24,7 @@ server.on('connection', (socket) => {
 });
 
 // Define 'caps' name space
-// Listening for events at http://localhost:3001/caps
+// Listen for events at 'url/caps'
 const caps = server.of('/caps');
 
 caps.on('connection', (socket) => {
