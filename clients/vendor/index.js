@@ -1,8 +1,10 @@
 'use strict';
 
+require('dotenv').config();
 const { io } = require('socket.io-client');
 const triggerOrderReadyForPickup = require('../vendor/packageReadyForPickup');
 const thankDriverForDelivery = require('../vendor/deliveryAcknowledgementHandler');
+const capsNamespaceUrl = process.env.NAMESPACE_URL;
 
 function initializeSocketConnection(namespaceUrl) {
   const socket = io(namespaceUrl);
@@ -15,7 +17,6 @@ function setupEventHandlers(socket) {
   thankDriverForDelivery(socket);
 }
 
-const capsNamespaceUrl = 'http://localhost:3001/caps';
 const socket = initializeSocketConnection(capsNamespaceUrl);
 setupEventHandlers(socket);
 
