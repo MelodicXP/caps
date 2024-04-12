@@ -2,8 +2,8 @@
 
 require('dotenv').config();
 const { io } = require('socket.io-client');
-const triggerOrderReadyForPickup = require('../vendor/packageReadyForPickup');
-const thankDriverForDelivery = require('../vendor/deliveryAcknowledgementHandler');
+const triggerOrderReadyForPickup = require('./orderDeliveryHandler');
+const thankDriverForDelivery = require('./orderEmissionHandler');
 const capsNamespaceUrl = process.env.NAMESPACE_URL;
 
 function initializeSocketConnection(namespaceUrl) {

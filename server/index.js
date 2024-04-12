@@ -9,19 +9,19 @@ const server = new Server();
 server.listen(PORT);
 
 // default server space
-server.on('connection', (socket) => {
-  console.log('Socket connected to Event Server!', socket.id);
+// server.on('connection', (socket) => {
+//   console.log('Socket connected to Event Server!', socket.id);
   
-  socket.on('MESSAGE', (payload) => {
-    console.log('SERVER: Message event', payload);
-    socket.broadcast.emit('MESSAGE', payload);
-  });
+//   socket.on('MESSAGE', (payload) => {
+//     console.log('SERVER: Message event', payload);
+//     socket.broadcast.emit('MESSAGE', payload);
+//   });
   
-  socket.on('RECEIVED', (payload) => {
-    console.log('Server RECEIVED event', payload);
-    socket.broadcast.emit('RECEIVED', payload);
-  });
-});
+//   socket.on('RECEIVED', (payload) => {
+//     console.log('Server RECEIVED event', payload);
+//     socket.broadcast.emit('RECEIVED', payload);
+//   });
+// });
 
 // Define 'caps' name space
 // Listen for events at 'url/caps'
