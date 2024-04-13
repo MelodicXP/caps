@@ -1,43 +1,53 @@
 'use strict';
 
-jest.useFakeTimers(); // Use Jest's fake timers to control setTimeout behavior
-jest.mock('../../src/eventPool'); // Mock the event pool
-console.log = jest.fn(); // Mock console.log to verify the log output
-
-const eventPool = require('../../src/eventPool');
-const handlePickupAndDelivery = require('../../src/driver/pickupAndDeliveryHandler');
+jest.useFakeTimers();
+jest.mock('../../clients/eventEmitter');
+const emit = require('../../clients/eventEmitter');
+const handlePickupAndDelivery = require('../../clients/driver/pickupAndDeliveryHandler');
 
 describe('Handle Pickup and Delivery Process', () => {
+  let mockSocket;
   beforeEach(() => {
-    // Clear mocks before each test
-    console.log.mockClear();
-    eventPool.emit.mockClear();
+    mockSocket = {
+      on: jest.fn((event, callback) => {
+        if (event === 'PICKUP') {
+          callback(mockPayload);
+        }
+      }),
+      emit: jest.fn(),
+      to: jest.fn().mockReturnThis(),
+    };
+
+    console.log = jest.fn();
+    emit.eventAndPayload = jest.fn();
   });
 
-  it('simulates the pickup and delivery process correctly, including log events', () => {
-    const payload = { orderID: 'testOrderID' };
+  const mockPayload = {
+    orderID: 'testOrderID123',
+    payload: {
+      orderID: 'testOrderID123',
+    },
+    vendorRoom: 'testRoom',
+  };
 
-    handlePickupAndDelivery(payload);
+  it('triggers pickup and delivery processes correctly', () => {
+    handlePickupAndDelivery(mockSocket);
 
-    // Immediately after calling handlePickupAndDelivery, no actions should have been taken yet
-    expect(console.log).not.toHaveBeenCalled();
-    expect(eventPool.emit).not.toHaveBeenCalled();
+    // Simulate PICKUP event
+    expect(mockSocket.on).toHaveBeenCalledWith('PICKUP', expect.any(Function));
 
-    // Advance time to simulate pickup process
-    jest.advanceTimersByTime(3000);
-    expect(console.log).toHaveBeenCalledWith(`Driver: Picked up order ID: ${payload.orderID}`);
+    // Advancing timers to trigger the setTimeouts in handlePickupAndDelivery
+    jest.advanceTimersByTime(3000); // Time for the pickup and start of delivery simulation
+    expect(console.log).toHaveBeenCalledWith(`Driver: Picked up order ID: ${mockPayload.payload.orderID}`);
 
-    jest.advanceTimersByTime(2000);
-    expect(eventPool.emit).toHaveBeenCalledWith('IN_TRANSIT', payload);
-    expect(eventPool.emit).toHaveBeenCalledWith('LOG', expect.any(Object)); // Check for LOG event emission
+    jest.advanceTimersByTime(2000); // Time for IN_TRANSIT emission
+    expect(emit.eventAndPayload).toHaveBeenCalledWith(mockSocket, 'IN_TRANSIT', mockPayload);
 
-    // Advance time to simulate delivery process
-    jest.advanceTimersByTime(6000); // Additional time to cover both transit and delivery
-    expect(console.log).toHaveBeenCalledWith(`Driver: Delivered ${payload.orderID}`);
-    expect(eventPool.emit).toHaveBeenCalledWith('DELIVERED', payload);
-    expect(eventPool.emit).toHaveBeenCalledWith('LOG', expect.any(Object)); // Check for LOG event emission again
+    jest.advanceTimersByTime(4000); // Time for DELIVERED emission
+    expect(console.log).toHaveBeenCalledWith(`Driver: Delivered ${mockPayload.payload.orderID}`);
+    expect(emit.eventAndPayload).toHaveBeenCalledWith(mockSocket, 'DELIVERED', mockPayload);
 
-    // Total checks for eventPool.emit calls (twice for each state change plus two LOG events)
-    expect(eventPool.emit).toHaveBeenCalledTimes(4);
+    // Total number of times eventAndPayload should be called
+    expect(emit.eventAndPayload).toHaveBeenCalledTimes(2);
   });
 });
