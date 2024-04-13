@@ -30,7 +30,11 @@ placeholder
 
 #### How to initialize/run your application (where applicable)
 
-- e.g. `npm start`
+- e.g. node index.js on each file, start in this order:  
+
+        1. server
+        2. driver
+        3. vendor
 
 #### How to use your library (where applicable)
 
