@@ -26,7 +26,7 @@ Change the underlying networking implementation of CAPS system from using node e
 
 #### `.env` requirements (where applicable)
 
-placeholder
+NAMESPACE_URL='yourURL/caps'
 
 #### How to initialize/run your application (where applicable)
 
