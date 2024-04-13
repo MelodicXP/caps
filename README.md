@@ -17,7 +17,7 @@ Change the underlying networking implementation of CAPS system from using node e
 
 ### Links and Resources
 
-- [Pull Request](https://github.com/MelodicXP/caps/pull/1)
+- [Pull Request](https://github.com/MelodicXP/caps/pull/5)
 - [GitHub Actions ci/cd](https://github.com/MelodicXP/caps/actions)
 
 ### Collaborators
@@ -46,11 +46,16 @@ placeholder
 - Any tests of note?  
   - pickupAndDeliveryHandler.test.js
   - deliveryAcknowledgement.test.js
+  - eventEmitter.test.js
 
 #### UML
 
-![Lab-11-UML](./assets/UML.png)
+![Lab-11-UML](./assets/UMLDiagram.png)
 
 #### File Structure
 
-![Lab-11-UML-File-Structure](./assets/FileStruc.png)
+![Lab-11-UML-File-Structure](./assets/fileStructDiagram.png)
+
+#### Terminal outputs
+
+![Terminal Outputs](./assets/terminalOutputs.png)
