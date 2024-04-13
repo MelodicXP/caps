@@ -13,6 +13,7 @@ class OrderCreator {
       orderID: chance.guid(),
       customer: chance.name({ nationality: 'en' }),
       address: `${chance.city()}, ${chance.state()}`,
+      vendorRoom: this.storeName.replace(/\s+/g, '-').toLowerCase(),
     };
   }
 }

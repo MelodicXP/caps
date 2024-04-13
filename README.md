@@ -1,4 +1,4 @@
-# Lab - 401 Class 11
+# Lab - 401 Class 12 - Phase 2
 
 ## Project: CAP - The Code Academy Parcel Service
 
@@ -8,10 +8,12 @@ This will be an event driven application that “distributes” the responsibili
 
 ### Author: Melo
 
-### Problem Domain
+### Problem Domain - Phase 2
 
 Objective:  
-Setup a pool of events and handler functions, with the intent being to refactor parts of the system throughout the week, but keep the handlers themselves largely the same. The task of “delivering a package” doesn’t change (the handler), even if the mechanism for triggering that task (the event) does.
+Move away from using Node Events for managing a pool of events, instead refactoring to using the Socket.io libraries. This allows communication between Server and Client applications.The intent here is to build the data services that would drive a suite of applications where we can see pickups and deliveries in real-time.  
+
+Change the underlying networking implementation of CAPS system from using node events to using a library called Socket.io so clients can communicate over a network. Socket.io manages the connection pool, making broadcasting easier to operate, and works well both on terminal (between servers) and with web clients.
 
 ### Links and Resources
 
