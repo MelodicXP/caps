@@ -50,11 +50,11 @@ placeholder
 
 #### UML
 
-![Lab-11-UML](./assets/UMLDiagram.png)
+![Lab-12-UML](./assets/UMLDiagram.png)
 
 #### File Structure
 
-![Lab-11-UML-File-Structure](./assets/fileStructDiagram.png)
+![Lab-12-UML-File-Structure](./assets/fileStructDiagram.png)
 
 #### Terminal outputs
 
