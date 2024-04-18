@@ -1,28 +1,16 @@
 'use strict';
 
-const emit = require('../eventEmitter');
-
-const handlePickupAndDelivery = (socket) => {
-  socket.on('PICKUP', (payload) => {
-    setTimeout(() => {
-      simulatePickupProcess(socket, payload);
-      simulateDeliveryProcess(socket, payload);
-    }, 3000);
-  });
+const simulatePickupProcess = (socket, order) => {
+  console.log(`DRIVER: picked up package ${order.orderID}`);
+  socket.emit('IN_TRANSIT', order);
 };
 
-const simulatePickupProcess = (socket, payload) => {
-  console.log(`Driver: Picked up order ID: ${payload.payload.orderID}`);
-  setTimeout(() => {
-    emit.eventAndPayload(socket,'IN_TRANSIT', payload);
-  }, 2000);
+const simulateDeliveryProcess = (socket, order) => {
+  console.log(`DRIVER: package ${order.orderID} has been delivered`);
+  socket.emit('DELIVERED', order);
 };
 
-const simulateDeliveryProcess = (socket, payload) => {
-  setTimeout(() => {
-    console.log(`Driver: Delivered ${payload.payload.orderID}`); 
-    emit.eventAndPayload(socket, 'DELIVERED', payload);
-  }, 4000); 
+module.exports = {
+  simulatePickupProcess,
+  simulateDeliveryProcess,
 };
-
-module.exports = handlePickupAndDelivery;

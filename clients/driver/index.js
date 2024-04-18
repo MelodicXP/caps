@@ -1,28 +1,25 @@
 'use strict';
 
 require('dotenv').config();
+const capsNamespaceUrl = process.env.NAMESPACE_URL;
+const vendorName = process.env.ROOM_NAME || 'default-vendor-name';
+
+const handlePickupAndDelivery = require('../driver/pickupAndDeliveryHandler');
 
 const { io } = require('socket.io-client');
-const handlePickupAndDelivery = require('../driver/pickupAndDeliveryHandler');
-const capsNamespaceUrl = process.env.NAMESPACE_URL;
-const roomName = process.env.ROOM_NAME || 'default-room';
+const socket = io(capsNamespaceUrl);
 
-function initializeSocketConnection(namespaceUrl, room) {
-  const socket = io(namespaceUrl);
-
-  socket.on('connect', () => {
-    console.log('Connected to namespace:', namespaceUrl);
-    socket.emit('JOIN', room, (response) => {
-      console.log('Join room response:', response); // Handle join acknowledgment
-    });
+socket.on('connect', () => {
+  socket.emit('JOIN', vendorName, () => {
+    console.log(`Joined room ${vendorName}`);
   });
+});
 
-  socket.on('connect_error', (err) => {
-    console.error('Connection error:', err);
-  });
-
-  return socket;
-}
-
-const socket = initializeSocketConnection(capsNamespaceUrl, roomName);
-handlePickupAndDelivery(socket);
+socket.on('PICKUP', (order) => {
+  setTimeout(() => {
+    handlePickupAndDelivery.simulatePickupProcess(socket, order);
+  }, 2000);
+  setTimeout(() => {
+    handlePickupAndDelivery.simulateDeliveryProcess(socket, order);
+  }, 4000);
+});
