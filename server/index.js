@@ -1,6 +1,7 @@
 'use strict';
 
-require('dotenv').config();
+// .env file path for server
+require('dotenv').config({ path: './.env' });
 
 const { Server } = require('socket.io');
 const server = new Server();
