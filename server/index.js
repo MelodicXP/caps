@@ -26,7 +26,7 @@ caps.on('connection', (socket) => {
     console.log(`Socket ${socket.id} joined room: ${vendorRoom}`);
   });
   
-  //Logs any event that comes in
+  // Add a 'received' event to the Global Event Pool (used socket.onAny instead)
   socket.onAny((event, order) => {
     const time = new Date();
     console.log('EVENT:', {
@@ -133,7 +133,14 @@ caps.on('connection', (socket) => {
     // }
   });
 
-  // Handle GET_ORDERS event (send orders from queue to Drivers)
+  // Handle DELIVERY_CONFIRMED event 
+  socket.on('DELIVERY_THANKYOU', (order) => {
+    if(order.vendorRoom) {
+      socket.to(order.vendorRoom).emit('DELIVERY_THANKYOU', order);
+    }
+  });
+
+  // Add a getAll event to the Global Event Pool (used GET_ORDERS as preferred naming convention)
   socket.on('GET_ORDERS', (order) => {
     let vendorRoom = order.vendorRoom; // 'default-vendor-name
 
