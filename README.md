@@ -1,4 +1,4 @@
-# Lab - 401 Class 12 - Phase 2
+# Lab - 401 Class 12 - Phase 3
 
 ## Project: CAP - The Code Academy Parcel Service
 
@@ -8,12 +8,14 @@ This will be an event driven application that “distributes” the responsibili
 
 ### Author: Melo
 
-### Problem Domain - Phase 2
+### Problem Domain - Phase 3 - Message Queues
 
 Objective:  
-Move away from using Node Events for managing a pool of events, instead refactoring to using the Socket.io libraries. This allows communication between Server and Client applications.The intent here is to build the data services that would drive a suite of applications where we can see pickups and deliveries in real-time.  
+CAPS Phase 3: Complete work on a multi-day build of delivery tracking system, adding queued delivery.
 
-Change the underlying networking implementation of CAPS system from using node events to using a library called Socket.io so clients can communicate over a network. Socket.io manages the connection pool, making broadcasting easier to operate, and works well both on terminal (between servers) and with web clients.
+In this phase, implement a system to guarantee that notification payloads are read by their intended subscriber. Rather than just triggering an event notification and hope that client applications respond, implement a “Queue” system so that nothing gets lost. Every event sent will be logged and held onto by the server until the intended recipient acknowledges that they received the message. At any time, a subscriber can get all of the messages they might have missed.
+
+In this final phase, will be implementing a “Queue” feature on the Server, allowing Driver and Vendor clients to subscribe to messages added for pickup and delivered events within their respective client queue.
 
 ### Links and Resources
 
