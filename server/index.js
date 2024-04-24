@@ -158,4 +158,33 @@ caps.on('connection', (socket) => {
       console.log('No orders found or empty order queue');
     }
   });
+
+  socket.on('GET_DELIVERY_CONFIRMATIONS', (order) => {
+    let vendorRoom = order.vendorRoom; // 'default-vendor-name
+
+    console.log(`Retrieving delivery confirmations for vendor: ${vendorRoom}`);
+
+    // Attempt to get the vendor's delivery queue from the deliveredQueue manager.
+    let deliveryConfirmations = deliveredQueue.getOrder(vendorRoom);
+
+    // Check if there are orders exist to process
+    let deliveryConfirmationsExist = deliveryConfirmations && Object.keys(deliveryConfirmations).length > 0;
+
+    if(deliveryConfirmationsExist){
+      const orderIDs = Object.keys(deliveryConfirmations.orders); // collect all order ID's
+
+      orderIDs.forEach(orderID => {
+        let orderDetails = deliveryConfirmations.orders[orderID];
+        socket.emit('DELIVERED', orderDetails);
+
+        // Remove order from delivery confirmation queue after emission
+        deliveryConfirmations.removeOrder(orderID);
+      });
+
+      console.log('All delivery confirmations processed.');
+    } else {
+      console.log('No delivery confirmations found or empty delivery queue');
+    }
+  });
+
 });
