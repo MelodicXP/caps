@@ -18,7 +18,7 @@ socket.on('connect', () => {
 socket.emit('GET_DELIVERY_CONFIRMATIONS', {vendorRoom: vendorName});
 
 // As a vendor, I want to “subscribe” to “delivered” notifications so that I know when my packages are delivered.
-socket.on('DELIVERED', (socket, order) => {
+socket.on('DELIVERED', (order) => {
   thankDriverForDelivering(socket, order);
 });
 

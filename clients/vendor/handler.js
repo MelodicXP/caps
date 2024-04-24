@@ -16,6 +16,10 @@ function createOrder (vendorName) {
 }
 
 const thankDriverForDelivering = (socket, order) => {
+  if (!order || !order.orderID) {
+    console.error('Invalid or missing order data');
+    return;
+  }
   console.log(`Thank you for delivering package ${order.orderID}`);
   socket.emit('DELIVERY_THANKYOU', order);
 };
