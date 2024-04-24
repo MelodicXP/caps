@@ -1,6 +1,7 @@
 'use strict';
 
-require('dotenv').config();
+// .env file path for flower vendor
+require('dotenv').config({ path: './.env' });
 
 const { io } = require('socket.io-client');
 const { generateOrderForPickup, thankDriverForDelivering } = require('../flower-vendor/handler');
