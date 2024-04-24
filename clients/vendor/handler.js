@@ -15,8 +15,9 @@ function createOrder (vendorName) {
   return order;
 }
 
-const thankDriverForDelivering = (order) => {
+const thankDriverForDelivering = (socket, order) => {
   console.log(`Thank you for delivering package ${order.orderID}`);
+  socket.emit('DELIVERY_THANKYOU', order);
 };
 
 module.exports = { 
