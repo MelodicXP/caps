@@ -8,6 +8,9 @@ const server = new Server();
 const PORT = process.env.PORT || 3002;
 server.listen(PORT);
 
+const Queue = require('./lib/OrderQueue');
+const orderQueue = new Queue();
+
 const caps = server.of('/caps');
 
 // create / allow for connections
@@ -34,6 +37,24 @@ caps.on('connection', (socket) => {
 
   // Handle PICKUP event (global broadcast within namespace, except the sender)
   socket.on('PICKUP', (order) => {
+    let vendorRoom = order.vendorRoom; // 'default-vendor-name'
+    let orderID = order.orderID;
+
+    // Attempt to get the vendor's order queue from the orderQueue manager.
+    let vendorOrders = orderQueue.getOrder(vendorRoom);
+
+    // Check if the vendor already has an order queue.
+    if (vendorOrders) {
+      // The vendor has an existing queue, proceed to add the new order.
+      vendorOrders.addOrder(orderID, order);
+    } else {
+      // No existing queue for this vendor, create one, then retrieve and use it.
+      const vendorQueueId = orderQueue.addOrder(order.vendorRoom, new Queue());
+      vendorOrders = orderQueue.getOrder(vendorQueueId);
+      vendorOrders.addOrder(orderID, order);
+    }
+    
+    // Notify all other clients (in this case drivers) about the new order pickup.
     socket.broadcast.emit('PICKUP', order);
   });
 
@@ -44,10 +65,52 @@ caps.on('connection', (socket) => {
     }
   });
 
-  // Handle DELIVERED event (similar to IN_TRANSIT, targeted to specific room)
+  // Handle DELIVERED event
   socket.on('DELIVERED', (order) => {
-    if (order.vendorRoom) {
-      socket.to(order.vendorRoom).emit('DELIVERED', order);
+    let vendorRoom = order.vendorRoom; // 'default-vendor-name'
+    let orderID = order.orderID;
+    
+    if (vendorRoom) {
+      // Attempt to get the vendor's order queue from the orderQueue manager.
+      const vendorOrders = orderQueue.getOrder(vendorRoom);
+
+      // Check if there are orders for specified vendor
+      if (vendorOrders) {
+        const orderDelivered = vendorOrders.removeOrder(orderID);
+
+        // Notify specific vendor room about order delivery
+        socket.to(vendorRoom).emit('DELIVERED', orderDelivered);
+      } else {
+        throw new Error('No order queue found for this vendor');
+      }
+    } else {
+      throw new Error('Invalid vendor room specified');
+    }
+  });
+
+  // Handle GET_ORDERS event (send orders from queue to Drivers)
+  socket.on('GET_ORDERS', (order) => {
+    let vendorRoom = order.vendorRoom; // 'default-vendor-name
+
+    console.log(`Retrieving orders for vendor: ${vendorRoom}`);
+
+    // Attempt to get the vendor's order queue from the orderQueue manager.
+    let vendorOrders = orderQueue.getOrder(vendorRoom);
+    console.log('VendorOrders in queue look looke like this:', vendorOrders);
+
+    // Check if there are orders exist to process
+    let ordersExist = vendorOrders && Object.keys(vendorOrders).length > 0;
+    console.log('Do orders exist? True or False: ', ordersExist);
+    console.log('This is vendorOrders.orders', Object.keys(vendorOrders.orders));
+
+    if(ordersExist){
+      Object.keys(vendorOrders.orders).forEach(orderID => {
+        // Emit event for each order in the queue
+        const orderDetails = vendorOrders.orders[orderID];
+        socket.emit('PICKUP', orderDetails);
+      });
+    } else {
+      console.log('No orders found or empty order queue');
     }
   });
 });
