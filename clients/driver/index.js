@@ -15,6 +15,9 @@ socket.on('connect', () => {
   });
 });
 
+socket.emit('GET_ORDERS', {vendorRoom: vendorName});
+
+// As a driver, I want to “subscribe” to “pickup” notifications so that I know what packages to deliver.
 socket.on('PICKUP', (order) => {
   setTimeout(() => {
     handlePickupAndDelivery.simulatePickupProcess(socket, order);
