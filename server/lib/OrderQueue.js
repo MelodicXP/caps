@@ -5,23 +5,23 @@ class OrderQueue {
     this.orders = {};
   }
 
-  addOrder(orderId, orderDetails) {
-    this.orders[orderId] = orderDetails;
+  addOrder(orderID, orderDetails) {
+    this.orders[orderID] = orderDetails;
     console.log('Order added to the queue');
-    return orderId;
+    return orderID;
   }
 
-  getOrder(orderId) {
-    return this.orders[orderId];
+  getOrder(orderID) {
+    return this.orders[orderID];
   }
 
-  removeOrder(orderId) {
-    if (!this.orders[orderId]) {
+  removeOrder(orderID) {
+    if (!this.orders[orderID]) {
       console.error('Order not found in queue');
       return null;
     }
-    let orderDetails = this.orders[orderId];
-    delete this.orders[orderId];
+    let orderDetails = this.orders[orderID];
+    delete this.orders[orderID];
     console.log('Order was deleted from queue');
     return orderDetails;
   }
