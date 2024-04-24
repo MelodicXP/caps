@@ -3,7 +3,7 @@
 require('dotenv').config();
 
 const { io } = require('socket.io-client');
-const { generateOrderForPickup, thankDriverForDelivering } = require('../vendor/handler');
+const { generateOrderForPickup, thankDriverForDelivering } = require('../flower-vendor/handler');
 
 const capsNamespaceUrl = process.env.NAMESPACE_URL;
 const vendorName = process.env.ROOM_NAME || 'default-vendor-name';
