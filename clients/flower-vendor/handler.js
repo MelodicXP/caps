@@ -1,6 +1,6 @@
 'uses strict';
 
-const OrderCreator = require('./OrderCreator');
+const OrderCreator = require('../lib/OrderCreator');
 
 const generateOrderForPickup = (socket, vendorName) => {
   console.log('---------------Emitting Order Ready For Pickup-------------');
