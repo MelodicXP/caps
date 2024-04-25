@@ -1,13 +1,14 @@
 'use strict';
 
-require('dotenv').config();
+require('dotenv').config({ path: './.env' });
+
 const capsNamespaceUrl = process.env.NAMESPACE_URL;
 const vendorName = process.env.ROOM_NAME || 'default-vendor-name';
 
-const handlePickupAndDelivery = require('../driver/pickupAndDeliveryHandler');
-
 const { io } = require('socket.io-client');
 const socket = io(capsNamespaceUrl);
+
+const handlePickupAndDelivery = require('../driver/pickupAndDeliveryHandler');
 
 socket.on('connect', () => {
   socket.emit('JOIN', vendorName, () => {
