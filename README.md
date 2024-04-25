@@ -56,11 +56,11 @@ NAMESPACE_URL='yourURL/caps'
 
 #### UML
 
-![Lab-12-UML](./assets/UMLDiagram.png)
+![Lab-13-UML](./assets/UMLDiagram.png)
 
 #### File Structure
 
-![Lab-12-UML-File-Structure](./assets/fileStructDiagram.png)
+![Lab-13-UML-File-Structure](./assets/fileStructDiagram.png)
 
 #### Terminal outputs
 
