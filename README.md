@@ -19,7 +19,7 @@ In this final phase, will be implementing a “Queue” feature on the Server, a
 
 ### Links and Resources
 
-- [Pull Request](https://github.com/MelodicXP/caps/pull/5)
+- [Pull Request](https://github.com/MelodicXP/caps/pull/8)
 - [GitHub Actions ci/cd](https://github.com/MelodicXP/caps/actions)
 
 ### Collaborators
@@ -35,8 +35,8 @@ NAMESPACE_URL='yourURL/caps'
 - e.g. node index.js on each file, start in this order:  
 
         1. server
-        2. driver
-        3. vendor
+        2. vendors
+        3. driver
 
 #### How to use your library (where applicable)
 
@@ -50,9 +50,11 @@ NAMESPACE_URL='yourURL/caps'
   - jest
 
 - Any tests of note?  
-  - pickupAndDeliveryHandler.test.js
-  - deliveryAcknowledgement.test.js
-  - eventEmitter.test.js
+  - driver-handler.test.js
+  - flower-handler.test.js
+  - widget-handler.test.js
+  - OrderCreator.test.js
+  - OrderQueue.test.js
 
 #### UML
 
