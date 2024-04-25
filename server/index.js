@@ -115,35 +115,6 @@ caps.on('connection', (socket) => {
 
     // Notify specific vendor room about delivery confirmations
     socket.to(vendorRoom).emit('DELIVERED', orderDetails);
-
-    // if (vendorRoom) {
-    //   // Attempt to get the vendor's order queue from the orderQueue manager.
-    //   let vendorOrders = orderQueue.getOrder(vendorRoom);
-
-    //   // Check if there are orders for specified vendor
-    //   if (vendorOrders) {
-    //     let orderDelivered = vendorOrders.removeOrder(orderID);
-
-    //     // Attempt to get the delivry queue from the deliveredQueue manager.
-    //     let deliveryConfirmations = deliveredQueue.getOrder(vendorRoom);
-
-    //     // Check if vendor already has delivery queue
-    //     if (deliveryConfirmations) { 
-    //       deliveryConfirmations.addOrder(orderDelivered, order);
-    //     } else {
-    //       // No existing delivery queue, create one, then retrieve and use it.
-    //       const deliveryQueueId = deliveredQueue.addOrder(order.vendorRoom, new Queue());
-    //       deliveryConfirmations= deliveredQueue.getOrder(deliveryQueueId);
-    //       deliveryConfirmations.addOrder(orderDelivered, order);
-    //     }
-    //     // Notify specific vendor room about order delivery
-    //     socket.to(vendorRoom).emit('DELIVERED', orderDelivered);
-    //   } else {
-    //     throw new Error('No order queue found for this vendor');
-    //   }
-    // } else {
-    //   throw new Error('Invalid vendor room specified');
-    // }
   });
 
   // Handle DELIVERY_CONFIRMED event 
