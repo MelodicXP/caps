@@ -5,7 +5,7 @@ require('dotenv').config({ path: './.env' });
 const capsNamespaceUrl = process.env.NAMESPACE_URL;
 const { io } = require('socket.io-client');
 const socket = io(capsNamespaceUrl);
-const handlePickupAndDelivery = require('../driver/pickupAndDeliveryHandler');
+const handlePickupAndDelivery = require('../driver/handler');
 
 let joinedRooms = new Set(); // Track rooms driver has joined
 
