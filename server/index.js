@@ -26,6 +26,9 @@ caps.on('connection', (socket) => {
     socket.join(vendorRoom);
     console.log(`Socket ${socket.id} joined room: ${vendorRoom}`);
   });
+
+  // TODO - Handle all vendor rooms to emit to driver
+
   
   // Add a 'received' event to the Global Event Pool (used socket.onAny instead)
   socket.onAny((event, order) => {
@@ -145,17 +148,14 @@ caps.on('connection', (socket) => {
   socket.on('GET_ORDERS', (order) => {
     let vendorRoom = order.vendorRoom; // 'default-vendor-name
 
-    console.log(`Retrieving orders for vendor: ${vendorRoom}`);
+    console.log(`Retrieving pick up orders for driver from vendor: ${vendorRoom}`);
 
     // Attempt to get the vendor's order queue from the orderQueue manager.
     let vendorOrders = orderQueue.getOrder(vendorRoom);
-    console.log('VendorOrders in queue look looke like this:', vendorOrders);
 
     // Check if there are orders exist to process
     let ordersExist = vendorOrders && Object.keys(vendorOrders).length > 0;
-    console.log('Do orders exist? True or False: ', ordersExist);
-    console.log('This is vendorOrders.orders', Object.keys(vendorOrders.orders));
-
+    
     if(ordersExist){
       Object.keys(vendorOrders.orders).forEach(orderID => {
         // Emit event for each order in the queue
