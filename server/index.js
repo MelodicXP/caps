@@ -15,21 +15,30 @@ const deliveredQueue = new Queue();
 
 const caps = server.of('/caps');
 
+// This set will hold all active vendor room names
+const vendorRooms = new Set();
+
 // create / allow for connections
 caps.on('connection', (socket) => {
   console.log('Socket connected to caps namespace!', socket.id);
 
   // Handle joining rooms
   socket.on('JOIN', (vendorRoom) => {
-    console.log('these are the rooms', socket.adapter.rooms);
+    //console.log('these are the rooms', socket.adapter.rooms);
     console.log('---payload is the room---', vendorRoom);
     socket.join(vendorRoom);
+    vendorRooms.add(vendorRoom); // add vendorRoom to set of all rooms
+    // Broadcast to all other sockets only
+    socket.broadcast.emit('NEW_VENDOR_ROOM', vendorRoom);
     console.log(`Socket ${socket.id} joined room: ${vendorRoom}`);
   });
 
-  // TODO - Handle all vendor rooms to emit to driver
+  // Handle all existing room
+  socket.on('GET_VENDOR_ROOMS', () => {
+    console.log('Emitting vendor room list (if any):', Array.from(vendorRooms));
+    socket.emit('AVAILABLE_ROOMS', Array.from(vendorRooms));
+  });
 
-  
   // Add a 'received' event to the Global Event Pool (used socket.onAny instead)
   socket.onAny((event, order) => {
     const time = new Date();
@@ -146,7 +155,7 @@ caps.on('connection', (socket) => {
 
   // Add a getAll event to the Global Event Pool (used GET_ORDERS as preferred naming convention)
   socket.on('GET_ORDERS', (order) => {
-    let vendorRoom = order.vendorRoom; // 'default-vendor-name
+    let vendorRoom = order.vendorRoom;
 
     console.log(`Retrieving pick up orders for driver from vendor: ${vendorRoom}`);
 
